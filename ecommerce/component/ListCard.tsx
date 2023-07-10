@@ -3,17 +3,24 @@ import React from 'react';
 import shoes from '../assets/images/dummyshoes.png';
 import heart from '../assets/images/heart.png';
 import {colors} from '../assets/colors/colors';
+import {Product} from '../types/products.types';
 
-export default function ListCard() {
+interface ListCardProps {
+  data: Product;
+}
+
+export default function ListCard({data}: ListCardProps) {
   return (
     <SafeAreaView>
       <View style={styles.card}>
-        <Image style={styles.productImage} source={shoes} />
-        <Text style={styles.company}>Nike</Text>
-        <Text style={styles.shoesName}>
-          Air Force 1 Jester XX Black Sonic Yellow ...
+        <Image style={styles.productImage} source={{uri: data.image}} />
+        <Text style={styles.company} ellipsizeMode="tail" numberOfLines={2}>
+          {data.title}
         </Text>
-        <Text style={styles.price}>$96</Text>
+        <Text style={styles.shoesName} ellipsizeMode="tail" numberOfLines={2}>
+          {data.description}
+        </Text>
+        <Text style={styles.price}>${data.price}</Text>
         <Image style={styles.heartImage} source={heart} />
       </View>
     </SafeAreaView>
@@ -43,6 +50,7 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     borderRadius: 15,
     position: 'relative',
+    width: 160,
   },
   heartImage: {
     position: 'absolute',
@@ -53,5 +61,8 @@ const styles = StyleSheet.create({
   },
   productImage: {
     marginTop: 35,
+    width: 129,
+    height: 65,
+    objectFit: 'contain',
   },
 });

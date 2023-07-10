@@ -1,15 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import React from 'react';
 import Header from '../sections/Header';
 import List from './List';
 
-export default function Home() {
+export default function Home({navigation}: any) {
   return (
     <View>
       <Header />
-      <List />
+      <ScrollView>
+        <List navigation={navigation} />
+      </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

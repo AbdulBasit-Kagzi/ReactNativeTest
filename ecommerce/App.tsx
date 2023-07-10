@@ -1,7 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
-import store from './redux/store/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -12,6 +11,8 @@ import List from './pages/List';
 import Cart from './pages/Cart';
 import {colors} from './assets/colors/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {store} from './store/store';
+import ProductDetail from './pages/ProductDetail';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +49,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Tab Navigator" component={TabNavigation} />
+          <Stack.Screen name="Product Detail" component={ProductDetail} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

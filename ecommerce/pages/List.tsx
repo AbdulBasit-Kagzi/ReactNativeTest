@@ -25,6 +25,7 @@ export default function List({navigation}: ListProps) {
   useEffect(() => {
     dispatch(getAllProduct());
   }, [dispatch]);
+
   return (
     <>
       <SafeAreaView style={styles.container}>

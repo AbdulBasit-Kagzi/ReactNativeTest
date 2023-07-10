@@ -13,16 +13,21 @@ import ProductImageList from '../sections/ProductImageList';
 import ProductDescriptionSection from '../sections/ProductDescriptionSection';
 import {colors} from '../assets/colors/colors';
 import ProductRatingSection from '../sections/ProductRatingSection';
-
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../store/slices/cartSlice';
 const screenHeight = Dimensions.get('window').height;
-export default function ProductDetail({route}: any) {
+export default function ProductDetail({route, navigation}: any) {
+  const dispatch = useDispatch<any>();
   const [productDetail, setProductDetail] = useState<Product>(
     route.params.data,
   );
   return (
     <ScrollView>
       <SafeAreaView style={{backgroundColor: colors.white}}>
-        <ProductDetailMainSection data={productDetail} />
+        <ProductDetailMainSection
+          data={productDetail}
+          navigation={navigation}
+        />
         <ProductImageList data={productDetail} />
         <ProductDescriptionSection data={productDetail} />
         <ProductRatingSection data={productDetail} />
@@ -40,7 +45,8 @@ export default function ProductDetail({route}: any) {
               paddingVertical: 12,
               elevation: 8,
               borderRadius: 10,
-            }}>
+            }}
+            onPress={() => dispatch(addToCart(productDetail))}>
             <Text
               style={{
                 fontSize: 16,

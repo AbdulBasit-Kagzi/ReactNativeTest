@@ -12,11 +12,14 @@ export const getAllProduct = createAsyncThunk(
   'product/getAll',
   async (body, {dispatch, rejectWithValue}) => {
     try {
-      const products = await axios.get('https://fakestoreapi.com/products', {
-        headers: {
-          'content-type': 'application/json',
+      const products = await axios.get(
+        'https://fakestoreapi.com/products?limit=10',
+        {
+          headers: {
+            'content-type': 'application/json',
+          },
         },
-      });
+      );
 
       return products;
     } catch (error) {

@@ -4,6 +4,7 @@ import {
   ImageBackground,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import React from 'react';
 import ellipsis from '../assets/images/Ellips.png';
@@ -15,9 +16,11 @@ const screenHeight = Dimensions.get('window').height;
 
 interface ProductDetailMainSectionProps {
   data: Product;
+  navigation: any;
 }
 export default function ProductDetailMainSection({
   data,
+  navigation,
 }: ProductDetailMainSectionProps) {
   return (
     <View>
@@ -25,7 +28,9 @@ export default function ProductDetailMainSection({
         <View style={styles.container}>
           <Image style={styles.heroImage} source={{uri: data.image}} />
           <View style={styles.iconsContiner}>
-            <Image source={backChevron} />
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Image source={backChevron} />
+            </TouchableOpacity>
             <Image source={heart} />
           </View>
         </View>

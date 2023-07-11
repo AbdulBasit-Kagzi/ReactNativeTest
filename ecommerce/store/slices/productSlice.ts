@@ -11,7 +11,7 @@ const productState: ProductSliceType = {
 
 export const getAllProduct = createAsyncThunk(
   'product/getAll',
-  async (body, {dispatch, rejectWithValue}) => {
+  async (body, {rejectWithValue}) => {
     try {
       const products = await axios.get('https://fakestoreapi.com/products', {
         headers: {
@@ -28,7 +28,7 @@ export const getAllProduct = createAsyncThunk(
 
 export const getProductByCategory = createAsyncThunk(
   'product/getCategroy',
-  async (body: string, {dispatch, rejectWithValue}) => {
+  async (body: string, {rejectWithValue}) => {
     console.log('body', body);
     try {
       const products = await axios.get(
@@ -58,37 +58,28 @@ const productSlice = createSlice({
   },
   extraReducers: function (builder) {
     // get all products
-    builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
+    builder.addCase(getAllProduct.fulfilled, (state, action: any) => {
       state.Products = action.payload.data;
       state.isLoading = false;
     });
-    builder.addCase(getAllProduct.pending, (state, action: AnyAction) => {
+    builder.addCase(getAllProduct.pending, state => {
       state.isLoading = true;
     });
-    builder.addCase(getAllProduct.rejected, (state, action: AnyAction) => {
+    builder.addCase(getAllProduct.rejected, state => {
       state.isLoading = false;
     });
 
     // get product by category
-    builder.addCase(
-      getProductByCategory.fulfilled,
-      (state, action: AnyAction) => {
-        state.Products = action.payload.data;
-        state.isLoading = false;
-      },
-    );
-    builder.addCase(
-      getProductByCategory.pending,
-      (state, action: AnyAction) => {
-        state.isLoading = false;
-      },
-    );
-    builder.addCase(
-      getProductByCategory.rejected,
-      (state, action: AnyAction) => {
-        state.isLoading = false;
-      },
-    );
+    builder.addCase(getProductByCategory.fulfilled, (state, action: any) => {
+      state.Products = action.payload.data;
+      state.isLoading = false;
+    });
+    builder.addCase(getProductByCategory.pending, state => {
+      state.isLoading = false;
+    });
+    builder.addCase(getProductByCategory.rejected, state => {
+      state.isLoading = false;
+    });
   },
 });
 

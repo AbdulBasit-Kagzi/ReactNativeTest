@@ -1,11 +1,4 @@
-import {
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import hamburger from '../assets/images/hamburger.png';
 import {colors} from '../assets/colors/colors';
@@ -19,7 +12,6 @@ export default function Header() {
   const dispatch = useDispatch<any>();
   const [category, setCategory] = useState<string>('');
   useEffect(() => {
-    console.log('category', category);
     if (category.length !== 0) {
       dispatch(getProductByCategory(category));
     } else {

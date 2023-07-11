@@ -1,6 +1,5 @@
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import shoes from '../assets/images/dummyshoes.png';
 import heart from '../assets/images/heart.png';
 import {colors} from '../assets/colors/colors';
 import {Product} from '../types/products.types';

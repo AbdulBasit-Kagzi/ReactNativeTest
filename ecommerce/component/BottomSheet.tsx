@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {BottomSheet, Button, ListItem} from '@rneui/themed';
+import {BottomSheet} from '@rneui/themed';
 import {StyleSheet, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';

@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {CartSliceType} from './types';
 
 const cartState: CartSliceType = {
@@ -11,7 +11,14 @@ const cartSlice = createSlice({
 
   reducers: {
     addToCart: (state, action) => {
-      state.cartProducts = [...state.cartProducts, action.payload];
+      const temp = state.cartProducts.find(
+        data => data.id === action.payload.id,
+      );
+      if (temp) {
+        return;
+      } else {
+        state.cartProducts = [...state.cartProducts, action.payload];
+      }
     },
   },
 });

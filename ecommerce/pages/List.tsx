@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {colors} from '../assets/colors/colors';
@@ -20,7 +21,9 @@ interface ListProps {
 }
 export default function List({navigation}: ListProps) {
   const dispatch = useDispatch<any>();
-  const {Products} = useSelector((state: RootState) => state.product);
+  const {Products, isLoading} = useSelector(
+    (state: RootState) => state.product,
+  );
 
   useEffect(() => {
     dispatch(getAllProduct());
@@ -39,16 +42,23 @@ export default function List({navigation}: ListProps) {
         <View>
           <Text style={styles.subText}>{Products.length} products found</Text>
         </View>
-        <View style={styles.CardWrapper}>
-          {Products.map(data => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Product Detail', {data: data})
-              }>
-              <ListCard key={data.id} data={data} />
-            </TouchableOpacity>
-          ))}
-        </View>
+        {Products.length === 0 && isLoading ? (
+          <View style={styles.loaderWrapper}>
+            <ActivityIndicator size="large" color={colors.darkGrey} />
+          </View>
+        ) : (
+          <View style={styles.CardWrapper}>
+            {Products.length !== 0 &&
+              Products.map(data => (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('Product Detail', {data: data})
+                  }>
+                  <ListCard key={data.id} data={data} />
+                </TouchableOpacity>
+              ))}
+          </View>
+        )}
       </SafeAreaView>
     </>
   );
@@ -85,5 +95,9 @@ const styles = StyleSheet.create({
     gap: 15,
     marginTop: 20,
     marginBottom: 80,
+  },
+  loaderWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

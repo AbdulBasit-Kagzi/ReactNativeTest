@@ -6,11 +6,26 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import hamburger from '../assets/images/hamburger.png';
 import {colors} from '../assets/colors/colors';
+import {useDispatch} from 'react-redux';
+import {
+  getAllProduct,
+  getProductByCategory,
+} from '../store/slices/productSlice';
 
 export default function Header() {
+  const dispatch = useDispatch<any>();
+  const [category, setCategory] = useState<string>('');
+  useEffect(() => {
+    console.log('category', category);
+    if (category.length !== 0) {
+      dispatch(getProductByCategory(category));
+    } else {
+      dispatch(getAllProduct());
+    }
+  }, [category, dispatch]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerSubContainer}>
@@ -19,6 +34,7 @@ export default function Header() {
           style={styles.searchField}
           placeholder="Search Product"
           placeholderTextColor={colors.grey}
+          onChangeText={text => setCategory(text)}
         />
       </View>
     </SafeAreaView>

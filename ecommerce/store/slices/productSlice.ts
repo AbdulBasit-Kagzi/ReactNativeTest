@@ -12,8 +12,26 @@ export const getAllProduct = createAsyncThunk(
   'product/getAll',
   async (body, {dispatch, rejectWithValue}) => {
     try {
+      const products = await axios.get('https://fakestoreapi.com/products', {
+        headers: {
+          'content-type': 'application/json',
+        },
+      });
+
+      return products;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const getProductByCategory = createAsyncThunk(
+  'product/getCategroy',
+  async (body: string, {dispatch, rejectWithValue}) => {
+    console.log('body', body);
+    try {
       const products = await axios.get(
-        'https://fakestoreapi.com/products?limit=10',
+        `https://fakestoreapi.com/products/category/${body.toLowerCase()}`,
         {
           headers: {
             'content-type': 'application/json',
@@ -36,7 +54,6 @@ const productSlice = createSlice({
     // get all products
     builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
       state.Products = action.payload.data;
-      console.log('proudcts', state.Products);
       state.isLoading = false;
     });
     builder.addCase(getAllProduct.pending, (state, action: AnyAction) => {
@@ -45,6 +62,27 @@ const productSlice = createSlice({
     builder.addCase(getAllProduct.rejected, (state, action: AnyAction) => {
       state.isLoading = false;
     });
+
+    // get product by category
+    builder.addCase(
+      getProductByCategory.fulfilled,
+      (state, action: AnyAction) => {
+        state.Products = action.payload.data;
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(
+      getProductByCategory.pending,
+      (state, action: AnyAction) => {
+        state.isLoading = false;
+      },
+    );
+    builder.addCase(
+      getProductByCategory.rejected,
+      (state, action: AnyAction) => {
+        state.isLoading = false;
+      },
+    );
   },
 });
 

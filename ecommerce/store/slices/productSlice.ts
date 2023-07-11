@@ -6,6 +6,7 @@ import axios from 'axios';
 const productState: ProductSliceType = {
   Products: [],
   isLoading: false,
+  openSheet: false,
 };
 
 export const getAllProduct = createAsyncThunk(
@@ -49,7 +50,12 @@ export const getProductByCategory = createAsyncThunk(
 const productSlice = createSlice({
   name: 'products',
   initialState: productState,
-  reducers: {},
+  reducers: {
+    sheet: (state, action) => {
+      state.openSheet = action.payload;
+      console.log('sheet', state.openSheet);
+    },
+  },
   extraReducers: function (builder) {
     // get all products
     builder.addCase(getAllProduct.fulfilled, (state, action: AnyAction) => {
@@ -85,5 +91,7 @@ const productSlice = createSlice({
     );
   },
 });
+
+export const {sheet} = productSlice.actions;
 
 export default productSlice.reducer;

@@ -13,7 +13,7 @@ import price from '../assets/images/price.png';
 import filter from '../assets/images/filter.png';
 import ListCard from '../component/ListCard';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAllProduct} from '../store/slices/productSlice';
+import {getAllProduct, sheet} from '../store/slices/productSlice';
 import {RootState} from '../store/store';
 
 interface ListProps {
@@ -36,7 +36,9 @@ export default function List({navigation}: ListProps) {
           <Text style={styles.title}> Sneakers</Text>
           <View style={styles.filter_priceContainer}>
             <Image source={price} />
-            <Image source={filter} />
+            <TouchableOpacity onPress={() => dispatch(sheet(true))}>
+              <Image source={filter} />
+            </TouchableOpacity>
           </View>
         </View>
         <View>

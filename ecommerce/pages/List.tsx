@@ -22,7 +22,7 @@ interface ListProps {
 }
 export default function List({navigation}: ListProps) {
   const dispatch = useDispatch<any>();
-  const {isLoading, filterProducts} = useSelector(
+  const {isLoading, filterProducts, category} = useSelector(
     (state: RootState) => state.product,
   );
 
@@ -39,7 +39,10 @@ export default function List({navigation}: ListProps) {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}> Sneakers</Text>
+          <Text style={styles.title}>
+            {' '}
+            {category.length > 0 ? category.toUpperCase() : `All Products`}
+          </Text>
           <View style={styles.filter_priceContainer}>
             <Image source={price} />
             <TouchableOpacity onPress={() => dispatch(sheet(true))}>

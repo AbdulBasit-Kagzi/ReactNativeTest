@@ -11,15 +11,18 @@ import List from './pages/List';
 import Cart from './pages/Cart';
 import {colors} from './assets/colors/colors';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
-import {store} from './store/store';
+import {RootState, store} from './store/store';
 import ProductDetail from './pages/ProductDetail';
 import {Icon} from '@rneui/themed';
+import {Avatar} from '@rneui/themed';
+import {useSelector} from 'react-redux';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Icon.loadFont();
 
 export const TabNavigation = () => {
+  const {cartProducts} = useSelector((state: RootState) => state.cart);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -52,7 +55,28 @@ export const TabNavigation = () => {
         component={Cart}
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="shopping-bag" type="feather" size={25} color={color} />
+            <>
+              <Icon
+                style={{position: 'relative'}}
+                name="shopping-bag"
+                type="feather"
+                size={25}
+                color={color}
+              />
+              {cartProducts.length > 0 && (
+                <Avatar
+                  size={20}
+                  rounded
+                  title={cartProducts.length.toString()}
+                  containerStyle={{
+                    backgroundColor: '#3d4db7',
+                    position: 'absolute',
+                    left: 40,
+                    top: 10,
+                  }}
+                />
+              )}
+            </>
           ),
         }}
       />

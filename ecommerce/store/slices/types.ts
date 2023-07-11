@@ -13,3 +13,7 @@ export interface ProductSliceType {
 export interface CartSliceType {
   cartProducts: Product[];
 }
+
+export interface LikeSliceType {
+  likeProducts: Product[];
+}

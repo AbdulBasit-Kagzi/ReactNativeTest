@@ -4,13 +4,14 @@ import {StyleSheet, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../store/store';
-import {Slider, Text, Icon} from '@rneui/themed';
+import {Text, Icon} from '@rneui/themed';
 import {
   productFilter,
   setprice,
   setrating,
   sheet,
 } from '../store/slices/productSlice';
+import Slider from '@react-native-community/slider';
 type BottomSheetComponentProps = {};
 
 const BottomSheetComponent: React.FunctionComponent<
@@ -34,7 +35,7 @@ const BottomSheetComponent: React.FunctionComponent<
         backdropStyle={{}}
         isVisible={isVisible}>
         <View style={styles.wrapper}>
-          <Slider
+          {/* <Slider
             value={price}
             onValueChange={value => {
               setPrice(value);
@@ -60,12 +61,19 @@ const BottomSheetComponent: React.FunctionComponent<
                 />
               ),
             }}
+          /> */}
+          <Slider
+            style={{width: 200, height: 40}}
+            minimumValue={0}
+            maximumValue={1}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#000000"
           />
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
             Price: {price}
           </Text>
 
-          <Slider
+          {/* <Slider
             value={rating}
             onValueChange={value => {
               setRating(value);
@@ -89,7 +97,7 @@ const BottomSheetComponent: React.FunctionComponent<
                 />
               ),
             }}
-          />
+          /> */}
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
             Rating: {rating}
           </Text>

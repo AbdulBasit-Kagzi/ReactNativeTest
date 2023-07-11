@@ -1,14 +1,25 @@
-import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+  View,
+} from 'react-native';
 import React from 'react';
 import heart from '../assets/images/heart.png';
 import {colors} from '../assets/colors/colors';
 import {Product} from '../types/products.types';
+import {useDispatch} from 'react-redux';
+import {like_dislike} from '../store/slices/likeSlice';
 
 interface ListCardProps {
   data: Product;
 }
 
 export default function ListCard({data}: ListCardProps) {
+  const dispatch = useDispatch<any>();
   return (
     <SafeAreaView>
       <View style={styles.card}>
@@ -20,7 +31,11 @@ export default function ListCard({data}: ListCardProps) {
           {data.description}
         </Text>
         <Text style={styles.price}>${data.price}</Text>
-        <Image style={styles.heartImage} source={heart} />
+        <TouchableHighlight
+          style={styles.heartImage}
+          onPress={() => dispatch(like_dislike(data))}>
+          <Image style={styles.heartImage} source={heart} />
+        </TouchableHighlight>
       </View>
     </SafeAreaView>
   );
@@ -50,6 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'relative',
     width: 160,
+    zIndex: 2,
   },
   heartImage: {
     position: 'absolute',
@@ -57,6 +73,7 @@ const styles = StyleSheet.create({
     top: 15,
     width: 20,
     height: 16,
+    zIndex: 10000000,
   },
   productImage: {
     marginTop: 35,

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {colors} from '../assets/colors/colors';
 import price from '../assets/images/price.png';
 import filter from '../assets/images/filter.png';
@@ -15,19 +15,29 @@ import ListCard from '../component/ListCard';
 import {useDispatch, useSelector} from 'react-redux';
 import {getAllProduct, sheet} from '../store/slices/productSlice';
 import {RootState} from '../store/store';
+import {Product} from '../types/products.types';
 
 interface ListProps {
   navigation: any;
 }
 export default function List({navigation}: ListProps) {
   const dispatch = useDispatch<any>();
-  const {Products, isLoading} = useSelector(
+  const {Products, isLoading, filterProducts} = useSelector(
     (state: RootState) => state.product,
   );
 
   useEffect(() => {
     dispatch(getAllProduct());
   }, [dispatch]);
+  const [currentData, setCurrentData] = useState<Product[]>();
+
+  useEffect(() => {
+    if (filterProducts.length !== 0) {
+      setCurrentData(filterProducts);
+    } else {
+      setCurrentData(Products);
+    }
+  }, [filterProducts, Products]);
 
   return (
     <>
@@ -42,16 +52,18 @@ export default function List({navigation}: ListProps) {
           </View>
         </View>
         <View>
-          <Text style={styles.subText}>{Products.length} products found</Text>
+          <Text style={styles.subText}>
+            {currentData?.length} products found
+          </Text>
         </View>
-        {Products.length === 0 && isLoading ? (
+        {currentData?.length === 0 && isLoading ? (
           <View style={styles.loaderWrapper}>
             <ActivityIndicator size="large" color={colors.darkGrey} />
           </View>
         ) : (
           <View style={styles.CardWrapper}>
-            {Products.length !== 0 &&
-              Products.map(data => (
+            {currentData?.length !== 0 &&
+              currentData?.map((data: Product) => (
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate('Product Detail', {data: data})

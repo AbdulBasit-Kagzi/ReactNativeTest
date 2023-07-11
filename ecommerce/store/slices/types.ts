@@ -4,6 +4,7 @@ export interface ProductSliceType {
   Products: Product[];
   isLoading: boolean;
   openSheet: boolean;
+  filterProducts: Product[];
 }
 
 export interface CartSliceType {

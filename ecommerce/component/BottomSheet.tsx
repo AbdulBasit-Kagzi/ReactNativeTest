@@ -5,7 +5,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../store/store';
 import {Slider, Text, Icon} from '@rneui/themed';
-import {sheet} from '../store/slices/productSlice';
+import {productFilter, sheet} from '../store/slices/productSlice';
 type BottomSheetComponentProps = {};
 
 const BottomSheetComponent: React.FunctionComponent<
@@ -14,7 +14,9 @@ const BottomSheetComponent: React.FunctionComponent<
   const dispatch = useDispatch<any>();
   const {openSheet} = useSelector((state: RootState) => state.product);
   const [isVisible, setIsVisible] = useState<boolean>(openSheet);
-  const [value, setValue] = useState(0);
+  const [price, setPrice] = useState<number>(0);
+  const [rating, setRating] = useState<number>(1);
+
   useEffect(() => {
     setIsVisible(openSheet);
   }, [openSheet]);
@@ -28,10 +30,13 @@ const BottomSheetComponent: React.FunctionComponent<
         isVisible={isVisible}>
         <View style={styles.wrapper}>
           <Slider
-            value={value}
-            onValueChange={setValue}
+            value={price}
+            onValueChange={setPrice}
             maximumValue={500}
             minimumValue={0}
+            onSlidingComplete={() => {
+              dispatch(productFilter({priceRange: [0, price]}));
+            }}
             step={10}
             allowTouchTrack
             trackStyle={{height: 5, backgroundColor: 'transparent'}}
@@ -49,15 +54,18 @@ const BottomSheetComponent: React.FunctionComponent<
             }}
           />
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
-            Price: {value}
+            Price: {price}
           </Text>
 
           <Slider
-            value={value}
-            onValueChange={setValue}
-            maximumValue={500}
+            value={rating}
+            onValueChange={setRating}
+            maximumValue={5}
             minimumValue={0}
-            step={10}
+            onSlidingComplete={() =>
+              dispatch(productFilter({rating: [1, rating]}))
+            }
+            step={1}
             allowTouchTrack
             trackStyle={{height: 5, backgroundColor: 'transparent'}}
             thumbStyle={{height: 20, width: 20, backgroundColor: 'transparent'}}
@@ -74,7 +82,7 @@ const BottomSheetComponent: React.FunctionComponent<
             }}
           />
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
-            Rating: {value}
+            Rating: {rating}
           </Text>
         </View>
       </BottomSheet>

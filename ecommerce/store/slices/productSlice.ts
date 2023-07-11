@@ -7,6 +7,7 @@ const productState: ProductSliceType = {
   Products: [],
   isLoading: false,
   openSheet: false,
+  filterProducts: [],
 };
 
 export const getAllProduct = createAsyncThunk(
@@ -53,7 +54,25 @@ const productSlice = createSlice({
   reducers: {
     sheet: (state, action) => {
       state.openSheet = action.payload;
-      console.log('sheet', state.openSheet);
+    },
+    productFilter: (state, action) => {
+      state.filterProducts = [...state.Products];
+
+      if (action.payload.priceRange && action.payload?.priceRange.length > 0) {
+        state.filterProducts = state.filterProducts.filter(
+          data =>
+            data.price >= action.payload.priceRange[0] &&
+            data.price <= action.payload.priceRange[1],
+        );
+      }
+      if (action.payload.rating && action.payload?.rating.length > 0) {
+        state.filterProducts = state.filterProducts.filter(
+          data =>
+            data.rating.rate >= action.payload.rating[0] &&
+            data.rating.rate <= action.payload.rating[1],
+        );
+      }
+      state.filterProducts = [...state.filterProducts];
     },
   },
   extraReducers: function (builder) {
@@ -83,6 +102,6 @@ const productSlice = createSlice({
   },
 });
 
-export const {sheet} = productSlice.actions;
+export const {sheet, productFilter} = productSlice.actions;
 
 export default productSlice.reducer;

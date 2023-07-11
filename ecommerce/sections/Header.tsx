@@ -5,18 +5,20 @@ import {colors} from '../assets/colors/colors';
 import {useDispatch} from 'react-redux';
 import {
   getAllProduct,
-  getProductByCategory,
+  productFilter,
+  // getCategory,
+  setcategory,
 } from '../store/slices/productSlice';
 
 export default function Header() {
   const dispatch = useDispatch<any>();
   const [category, setCategory] = useState<string>('');
   useEffect(() => {
-    if (category.length !== 0) {
-      dispatch(getProductByCategory(category));
-    } else {
-      dispatch(getAllProduct());
-    }
+    dispatch(getAllProduct());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(productFilter(category.toLowerCase()));
   }, [category, dispatch]);
   return (
     <SafeAreaView style={styles.container}>
@@ -26,7 +28,10 @@ export default function Header() {
           style={styles.searchField}
           placeholder="Search Product"
           placeholderTextColor={colors.grey}
-          onChangeText={text => setCategory(text)}
+          onChangeText={text => {
+            setCategory(text);
+            dispatch(setcategory(text.toLowerCase()));
+          }}
         />
       </View>
     </SafeAreaView>

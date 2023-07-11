@@ -10,14 +10,14 @@ import Profile from './pages/Profile';
 import List from './pages/List';
 import Cart from './pages/Cart';
 import {colors} from './assets/colors/colors';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 import {store} from './store/store';
 import ProductDetail from './pages/ProductDetail';
-
+import {Icon} from '@rneui/themed';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-Icon.loadFont();
+// Icon.loadFont();
 
 export const TabNavigation = () => {
   return (
@@ -33,13 +33,47 @@ export const TabNavigation = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color}) => <Icon name="home" size={25} color={color} />,
+          tabBarIcon: ({color}) => (
+            <Icon name="home" type="feather" size={25} color={color} />
+          ),
         }}
       />
-      <Tab.Screen name="List" component={List} />
-      <Tab.Screen name="Cart" component={Cart} />
-      <Tab.Screen name="Liked" component={Liked} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen
+        name="List"
+        component={List}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="list" type="feather" size={25} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="shopping-bag" type="feather" size={25} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Liked"
+        component={Liked}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="heart" type="feather" size={25} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Icon name="user" type="feather" size={25} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };

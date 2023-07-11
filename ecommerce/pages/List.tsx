@@ -22,7 +22,7 @@ interface ListProps {
 }
 export default function List({navigation}: ListProps) {
   const dispatch = useDispatch<any>();
-  const {Products, isLoading, filterProducts} = useSelector(
+  const {isLoading, filterProducts} = useSelector(
     (state: RootState) => state.product,
   );
 
@@ -32,12 +32,8 @@ export default function List({navigation}: ListProps) {
   const [currentData, setCurrentData] = useState<Product[]>();
 
   useEffect(() => {
-    if (filterProducts.length !== 0) {
-      setCurrentData(filterProducts);
-    } else {
-      setCurrentData(Products);
-    }
-  }, [filterProducts, Products]);
+    setCurrentData(filterProducts);
+  }, [filterProducts]);
 
   return (
     <>
@@ -62,15 +58,21 @@ export default function List({navigation}: ListProps) {
           </View>
         ) : (
           <View style={styles.CardWrapper}>
-            {currentData?.length !== 0 &&
+            {currentData?.length !== 0 ? (
               currentData?.map((data: Product) => (
                 <TouchableOpacity
+                  key={data.id}
                   onPress={() =>
                     navigation.navigate('Product Detail', {data: data})
                   }>
                   <ListCard key={data.id} data={data} />
                 </TouchableOpacity>
-              ))}
+              ))
+            ) : (
+              <View>
+                <Text> No data</Text>
+              </View>
+            )}
           </View>
         )}
       </SafeAreaView>

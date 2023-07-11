@@ -5,7 +5,12 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../store/store';
 import {Slider, Text, Icon} from '@rneui/themed';
-import {productFilter, sheet} from '../store/slices/productSlice';
+import {
+  productFilter,
+  setprice,
+  setrating,
+  sheet,
+} from '../store/slices/productSlice';
 type BottomSheetComponentProps = {};
 
 const BottomSheetComponent: React.FunctionComponent<
@@ -31,11 +36,14 @@ const BottomSheetComponent: React.FunctionComponent<
         <View style={styles.wrapper}>
           <Slider
             value={price}
-            onValueChange={setPrice}
+            onValueChange={value => {
+              setPrice(value);
+              dispatch(setprice([0, value]));
+            }}
             maximumValue={500}
             minimumValue={0}
             onSlidingComplete={() => {
-              dispatch(productFilter({priceRange: [0, price]}));
+              dispatch(productFilter());
             }}
             step={10}
             allowTouchTrack
@@ -59,12 +67,13 @@ const BottomSheetComponent: React.FunctionComponent<
 
           <Slider
             value={rating}
-            onValueChange={setRating}
+            onValueChange={value => {
+              setRating(value);
+              dispatch(setrating([0, value]));
+            }}
             maximumValue={5}
             minimumValue={0}
-            onSlidingComplete={() =>
-              dispatch(productFilter({rating: [1, rating]}))
-            }
+            onSlidingComplete={() => dispatch(productFilter())}
             step={1}
             allowTouchTrack
             trackStyle={{height: 5, backgroundColor: 'transparent'}}

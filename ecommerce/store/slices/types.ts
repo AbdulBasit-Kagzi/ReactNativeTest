@@ -5,6 +5,9 @@ export interface ProductSliceType {
   isLoading: boolean;
   openSheet: boolean;
   filterProducts: Product[];
+  category: string;
+  price: number[];
+  rating: number[];
 }
 
 export interface CartSliceType {

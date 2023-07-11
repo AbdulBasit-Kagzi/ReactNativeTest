@@ -22,7 +22,7 @@ export default function ProductDetail({route, navigation}: any) {
     route.params.data,
   );
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       <SafeAreaView style={{backgroundColor: colors.white}}>
         <ProductDetailMainSection
           data={productDetail}

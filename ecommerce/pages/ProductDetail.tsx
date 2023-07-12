@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {Product} from '../types/products.types';
 import ProductDetailMainSection from '../sections/ProductDetailMainSection';
 import ProductImageList from '../sections/ProductImageList';
@@ -16,19 +17,19 @@ import ProductRatingSection from '../sections/ProductRatingSection';
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../store/slices/cartSlice';
 const screenHeight = Dimensions.get('window').height;
-export default function ProductDetail({route, navigation}: any) {
+export default function ProductDetail() {
   const dispatch = useDispatch();
+  const route = useRoute();
+  const nav = useNavigation();
 
   const [productDetail, setProductDetail] = useState<Product>(
-    route.params.data,
+    route?.params?.data,
   );
+
   return (
     <ScrollView bounces={false}>
       <SafeAreaView style={{backgroundColor: colors.white}}>
-        <ProductDetailMainSection
-          data={productDetail}
-          navigation={navigation}
-        />
+        <ProductDetailMainSection data={productDetail} />
         <ProductImageList data={productDetail} />
         <ProductDescriptionSection data={productDetail} />
         <ProductRatingSection data={productDetail} />

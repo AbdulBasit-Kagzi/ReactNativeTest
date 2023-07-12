@@ -78,7 +78,6 @@ const productSlice = createSlice({
     },
   },
   extraReducers: function (builder) {
-    // get all products
     builder.addCase(getAllProduct.fulfilled, (state, action: any) => {
       state.Products = action.payload.data;
       state.filterProducts = [...state.Products];

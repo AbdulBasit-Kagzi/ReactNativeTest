@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import ellipsis from '../assets/images/Ellips.png';
 import {Product} from '../types/products.types';
@@ -20,12 +21,11 @@ const screenHeight = Dimensions.get('window').height;
 
 interface ProductDetailMainSectionProps {
   data: Product;
-  navigation: any;
 }
 export default function ProductDetailMainSection({
   data,
-  navigation,
 }: ProductDetailMainSectionProps) {
+  const nav = useNavigation();
   const dispatch = useDispatch();
   const {likeProducts} = useSelector((state: RootState) => state.like);
   const [likedProduct, setLikedProduct] = useState<Product>();
@@ -33,13 +33,14 @@ export default function ProductDetailMainSection({
     let temp = likeProducts.find(product => product.id === data.id);
     setLikedProduct(temp);
   }, [data, likeProducts]);
+
   return (
     <View>
       <ImageBackground style={styles.ImageBackgroundStyle} source={ellipsis}>
         <View style={styles.container}>
           <Image style={styles.heroImage} source={{uri: data.image}} />
           <View style={styles.iconsContiner}>
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => nav.navigate('Liked')}>
               <Image source={backChevron} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => dispatch(like_dislike(data))}>

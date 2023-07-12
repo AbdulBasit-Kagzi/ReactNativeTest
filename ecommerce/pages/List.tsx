@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../assets/colors/colors';
 import price from '../assets/images/price.png';
@@ -18,16 +19,13 @@ import {RootState} from '../store/store';
 import {Product} from '../types/products.types';
 import {FlatList} from 'react-native';
 
-interface ListProps {
-  navigation: any;
-}
-
-export default function List({navigation}: ListProps) {
+export default function List() {
   const dispatch = useDispatch<any>();
   const {isLoading, filterProducts, category} = useSelector(
     (state: RootState) => state.product,
   );
 
+  const nav = useNavigation();
   const [limit, setLimit] = useState<number>(10);
 
   useEffect(() => {
@@ -78,7 +76,7 @@ export default function List({navigation}: ListProps) {
                           <TouchableOpacity
                             key={item.id}
                             onPress={() =>
-                              navigation.navigate('Product Detail', {
+                              nav.navigate('Product Detail', {
                                 data: item,
                               })
                             }>

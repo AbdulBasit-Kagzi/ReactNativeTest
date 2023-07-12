@@ -3,19 +3,11 @@ import React, {useEffect, useState} from 'react';
 import hamburger from '../assets/images/hamburger.png';
 import {colors} from '../assets/colors/colors';
 import {useDispatch} from 'react-redux';
-import {
-  getAllProduct,
-  productFilter,
-  // getCategory,
-  setcategory,
-} from '../store/slices/productSlice';
+import {productFilter, setcategory} from '../store/slices/productSlice';
 
 export default function Header() {
   const dispatch = useDispatch<any>();
   const [category, setCategory] = useState<string>('');
-  // useEffect(() => {
-  //   dispatch(getAllProduct());
-  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(productFilter(category.toLowerCase()));

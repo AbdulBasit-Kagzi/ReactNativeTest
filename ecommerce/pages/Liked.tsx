@@ -5,15 +5,15 @@ import {RootState} from '../store/store';
 import {colors} from '../assets/colors/colors';
 import ListCard from '../component/ListCard';
 export default function Cart() {
-  const {cartProducts} = useSelector((state: RootState) => state.cart);
+  const {likeProducts} = useSelector((state: RootState) => state.like);
   return (
     <View style={styles.container}>
       <View style={{paddingVertical: 10}}>
         <Text style={styles.heading}>Like Products</Text>
-        <Text style={styles.subHeading}>{cartProducts.length} products</Text>
-        {cartProducts.length > 0 ? (
+        <Text style={styles.subHeading}>{likeProducts.length} products</Text>
+        {likeProducts.length > 0 ? (
           <View style={styles.CardWrapper}>
-            {cartProducts?.map(data => {
+            {likeProducts?.map(data => {
               return <ListCard key={data.id} data={data} />;
             })}
           </View>

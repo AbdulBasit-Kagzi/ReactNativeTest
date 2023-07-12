@@ -13,9 +13,9 @@ import {
 export default function Header() {
   const dispatch = useDispatch<any>();
   const [category, setCategory] = useState<string>('');
-  useEffect(() => {
-    dispatch(getAllProduct());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllProduct());
+  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(productFilter(category.toLowerCase()));

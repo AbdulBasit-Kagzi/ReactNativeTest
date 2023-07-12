@@ -17,7 +17,8 @@ import {useDispatch} from 'react-redux';
 import {addToCart} from '../store/slices/cartSlice';
 const screenHeight = Dimensions.get('window').height;
 export default function ProductDetail({route, navigation}: any) {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch();
+
   const [productDetail, setProductDetail] = useState<Product>(
     route.params.data,
   );

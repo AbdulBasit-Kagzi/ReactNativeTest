@@ -16,19 +16,23 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getAllProduct, sheet} from '../store/slices/productSlice';
 import {RootState} from '../store/store';
 import {Product} from '../types/products.types';
+import {FlatList} from 'react-native';
 
 interface ListProps {
   navigation: any;
 }
+
 export default function List({navigation}: ListProps) {
   const dispatch = useDispatch<any>();
   const {isLoading, filterProducts, category} = useSelector(
     (state: RootState) => state.product,
   );
 
+  const [limit, setLimit] = useState<number>(10);
+
   useEffect(() => {
-    dispatch(getAllProduct());
-  }, [dispatch]);
+    if (limit <= 20) dispatch(getAllProduct(limit));
+  }, [dispatch, limit]);
   const [currentData, setCurrentData] = useState<Product[]>();
 
   useEffect(() => {
@@ -60,23 +64,39 @@ export default function List({navigation}: ListProps) {
             <ActivityIndicator size="large" color={colors.darkGrey} />
           </View>
         ) : (
-          <View style={styles.CardWrapper}>
-            {currentData?.length !== 0 ? (
-              currentData?.map((data: Product) => (
-                <TouchableOpacity
-                  key={data.id}
-                  onPress={() =>
-                    navigation.navigate('Product Detail', {data: data})
-                  }>
-                  <ListCard key={data.id} data={data} />
-                </TouchableOpacity>
-              ))
-            ) : (
-              <View>
-                <Text> No data</Text>
-              </View>
-            )}
-          </View>
+          <>
+            <View style={{marginBottom: 384}}>
+              {currentData?.length !== 0 ? (
+                <FlatList
+                  data={currentData}
+                  numColumns={2}
+                  onEndReached={() => setLimit(limit + 10)}
+                  renderItem={({item}) => {
+                    return (
+                      <>
+                        <View style={styles.CardWrapper}>
+                          <TouchableOpacity
+                            key={item.id}
+                            onPress={() =>
+                              navigation.navigate('Product Detail', {
+                                data: item,
+                              })
+                            }>
+                            <ListCard key={item.id} data={item} />
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    );
+                  }}
+                />
+              ) : (
+                <View>
+                  <Text> No data</Text>
+                </View>
+              )}
+            </View>
+            <>{isLoading && <ActivityIndicator />}</>
+          </>
         )}
       </SafeAreaView>
     </>
@@ -109,11 +129,8 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   CardWrapper: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 15,
     marginTop: 20,
-    marginBottom: 80,
+    marginRight: 15,
   },
   loaderWrapper: {
     justifyContent: 'center',

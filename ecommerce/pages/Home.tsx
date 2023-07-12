@@ -8,10 +8,8 @@ export default function Home({navigation}: any) {
   return (
     <View>
       <Header />
-      <ScrollView>
-        <List navigation={navigation} />
-        <BottomSheetComponent />
-      </ScrollView>
+      <List navigation={navigation} />
+      <BottomSheetComponent />
     </View>
   );
 }

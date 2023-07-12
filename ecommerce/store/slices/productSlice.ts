@@ -15,13 +15,17 @@ const productState: ProductSliceType = {
 
 export const getAllProduct = createAsyncThunk(
   'product/getAll',
-  async (body, {rejectWithValue}) => {
+  async (body: number, {rejectWithValue}) => {
     try {
-      const products = await axios.get('https://fakestoreapi.com/products', {
-        headers: {
-          'content-type': 'application/json',
+      console.log('limit', body);
+      const products = await axios.get(
+        `https://fakestoreapi.com/products?limit=${body}`,
+        {
+          headers: {
+            'content-type': 'application/json',
+          },
         },
-      });
+      );
 
       return products;
     } catch (error) {

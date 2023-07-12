@@ -6,11 +6,15 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ellipsis from '../assets/images/Ellips.png';
 import {Product} from '../types/products.types';
 import backChevron from '../assets/images/chevron.png';
 import heart from '../assets/images/whiteHeart.png';
+import {useSelector, useDispatch} from 'react-redux';
+import {RootState} from '../store/store';
+import {like_dislike} from '../store/slices/likeSlice';
+import filled_heart from '../assets/images/9004758_heart_love_valentine_like_icon.png';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -22,6 +26,13 @@ export default function ProductDetailMainSection({
   data,
   navigation,
 }: ProductDetailMainSectionProps) {
+  const dispatch = useDispatch();
+  const {likeProducts} = useSelector((state: RootState) => state.like);
+  const [likedProduct, setLikedProduct] = useState<Product>();
+  useEffect(() => {
+    let temp = likeProducts.find(product => product.id === data.id);
+    setLikedProduct(temp);
+  }, [data, likeProducts]);
   return (
     <View>
       <ImageBackground style={styles.ImageBackgroundStyle} source={ellipsis}>
@@ -31,7 +42,12 @@ export default function ProductDetailMainSection({
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <Image source={backChevron} />
             </TouchableOpacity>
-            <Image source={heart} />
+            <TouchableOpacity onPress={() => dispatch(like_dislike(data))}>
+              <Image
+                style={styles.heartImage}
+                source={likedProduct?.id === data.id ? filled_heart : heart}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </ImageBackground>
@@ -61,5 +77,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingTop: 16,
+  },
+  heartImage: {
+    width: 29,
+    height: 24,
   },
 });

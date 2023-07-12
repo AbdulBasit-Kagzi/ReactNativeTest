@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   View,
 } from 'react-native';
 import React from 'react';
@@ -31,11 +30,11 @@ export default function ListCard({data}: ListCardProps) {
           {data.description}
         </Text>
         <Text style={styles.price}>${data.price}</Text>
-        <TouchableHighlight
+        <TouchableOpacity
           style={styles.heartImage}
           onPress={() => dispatch(like_dislike(data))}>
           <Image style={styles.heartImage} source={heart} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -65,6 +64,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'relative',
     width: 160,
+    elevation: 2,
     zIndex: 2,
   },
   heartImage: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     top: 15,
     width: 20,
     height: 16,
-    zIndex: 10000000,
+    zIndex: 10,
   },
   productImage: {
     marginTop: 35,

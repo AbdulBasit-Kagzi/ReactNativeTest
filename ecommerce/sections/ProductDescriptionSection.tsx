@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Product} from '../types/products.types';
 import {colors} from '../assets/colors/colors';
 
@@ -10,12 +10,11 @@ interface ProductDescriptionSectionProps {
 export default function ProductDescriptionSection({
   data,
 }: ProductDescriptionSectionProps) {
+  const [ellipsis, setEllipsis] = useState<number>(3);
   return (
     <View style={styles.container}>
       <View style={styles.priceWrapper}>
-        <Text style={styles.productName} numberOfLines={1} ellipsizeMode="tail">
-          {data.title}
-        </Text>
+        <Text style={styles.productName}>{data.title}</Text>
         <Text style={styles.price}>${data.price}</Text>
       </View>
       <View
@@ -30,11 +29,19 @@ export default function ProductDescriptionSection({
           }}></View>
       </View>
       <View>
-        <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+        <Text
+          style={styles.description}
+          numberOfLines={ellipsis}
+          ellipsizeMode="tail">
           {data.description}
         </Text>
-        <Text style={styles.readMore} numberOfLines={3} ellipsizeMode="tail">
-          Read more
+        <Text
+          style={styles.readMore}
+          ellipsizeMode="tail"
+          onPress={() => {
+            ellipsis > 0 ? setEllipsis(0) : setEllipsis(3);
+          }}>
+          {ellipsis > 0 ? 'Read More' : 'Show Less'}
         </Text>
       </View>
       <View
@@ -66,6 +73,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 20,
     fontWeight: '800',
+    width: 250,
   },
   price: {
     color: colors.black,

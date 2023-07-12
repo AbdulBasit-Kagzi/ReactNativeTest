@@ -4,14 +4,17 @@ import {StyleSheet, View} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../store/store';
-import {Text, Icon} from '@rneui/themed';
+import {Text} from '@rneui/themed';
 import {
   productFilter,
   setprice,
   setrating,
   sheet,
 } from '../store/slices/productSlice';
-import Slider from '@react-native-community/slider';
+
+import {Slider} from '@miblanchard/react-native-slider';
+import {colors} from '../assets/colors/colors';
+
 type BottomSheetComponentProps = {};
 
 const BottomSheetComponent: React.FunctionComponent<
@@ -20,7 +23,7 @@ const BottomSheetComponent: React.FunctionComponent<
   const dispatch = useDispatch<any>();
   const {openSheet} = useSelector((state: RootState) => state.product);
   const [isVisible, setIsVisible] = useState<boolean>(openSheet);
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number[]>([0, 10]);
   const [rating, setRating] = useState<number>(1);
 
   useEffect(() => {
@@ -35,69 +38,36 @@ const BottomSheetComponent: React.FunctionComponent<
         backdropStyle={{}}
         isVisible={isVisible}>
         <View style={styles.wrapper}>
-          {/* <Slider
+          <Slider
             value={price}
             onValueChange={value => {
               setPrice(value);
-              dispatch(setprice([0, value]));
+              dispatch(setprice(value));
             }}
-            maximumValue={500}
-            minimumValue={0}
             onSlidingComplete={() => {
               dispatch(productFilter());
             }}
-            step={10}
-            allowTouchTrack
-            trackStyle={{height: 5, backgroundColor: 'transparent'}}
-            thumbStyle={{height: 20, width: 20, backgroundColor: 'transparent'}}
-            thumbProps={{
-              children: (
-                <Icon
-                  name="heartbeat"
-                  type="font-awesome"
-                  size={20}
-                  reverse
-                  containerStyle={{bottom: 20, right: 20}}
-                />
-              ),
-            }}
-          /> */}
-          <Slider
-            style={{width: 200, height: 40}}
             minimumValue={0}
-            maximumValue={1}
-            minimumTrackTintColor="#FFFFFF"
-            maximumTrackTintColor="#000000"
+            maximumValue={1000}
+            step={10}
+            minimumTrackTintColor={colors.darkGrey}
+            maximumTrackTintColor={colors.darkGrey}
           />
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
-            Price: {price}
+            {`Price :${price[0]} - ${price[1]}`}
           </Text>
 
-          {/* <Slider
+          <Slider
             value={rating}
             onValueChange={value => {
-              setRating(value);
+              setRating(value[0]);
               dispatch(setrating([0, value]));
             }}
             maximumValue={5}
             minimumValue={0}
             onSlidingComplete={() => dispatch(productFilter())}
             step={1}
-            allowTouchTrack
-            trackStyle={{height: 5, backgroundColor: 'transparent'}}
-            thumbStyle={{height: 20, width: 20, backgroundColor: 'transparent'}}
-            thumbProps={{
-              children: (
-                <Icon
-                  name="heartbeat"
-                  type="font-awesome"
-                  size={20}
-                  reverse
-                  containerStyle={{bottom: 20, right: 20}}
-                />
-              ),
-            }}
-          /> */}
+          />
           <Text style={{paddingTop: 20, paddingBottom: 20}}>
             Rating: {rating}
           </Text>

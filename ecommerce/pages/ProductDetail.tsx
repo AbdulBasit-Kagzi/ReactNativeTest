@@ -16,6 +16,7 @@ import {colors} from '../assets/colors/colors';
 import ProductRatingSection from '../sections/ProductRatingSection';
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../store/slices/cartSlice';
+import {Button} from '../component/CustomButton3';
 const screenHeight = Dimensions.get('window').height;
 export default function ProductDetail() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ export default function ProductDetail() {
         <ProductImageList data={productDetail} />
         <ProductDescriptionSection data={productDetail} />
         <ProductRatingSection data={productDetail} />
-        <View
+        {/* <View
           style={{
             paddingLeft: 20,
             paddingRight: 20,
@@ -59,6 +60,20 @@ export default function ProductDetail() {
               ADD TO CART
             </Text>
           </TouchableOpacity>
+        </View> */}
+        <View
+          style={{
+            alignItems: 'center',
+            marginTop: 50,
+            marginBottom: screenHeight * 0.05,
+          }}>
+          <Button
+            black
+            title="Add To Cart"
+            isFullWidth={false}
+            onPress={() => console.log('')}
+            shadow={true}
+          />
         </View>
       </SafeAreaView>
     </ScrollView>
